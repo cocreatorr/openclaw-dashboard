@@ -1,32 +1,43 @@
-# Node.js dependencies
-node_modules/
-*.log
-logs/
+# Node.js / Next.js / Express monorepo ignores
 
-# Next.js build artifacts
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Build outputs
 .next/
 out/
+dist/
 build/
 
-# Coverage reports
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Coverage
 coverage/
 
-# OS junk
-.DS_Store
-
-# Environment variables (never commit secrets)
-.env
-.env.*
-
-# TypeScript build info
-*.tsbuildinfo
-next-env.d.ts
-
-# Vercel / Azure deployment metadata
-.vercel/
-.azure/
-PublishProfiles/
-
-# IDE/editor configs (optional, keeps repo clean)
+# IDE/editor
 .vscode/
 .idea/
+*.swp
+
+# Misc
+*.tgz
+*.zip
+*.tar
