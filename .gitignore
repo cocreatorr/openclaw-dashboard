@@ -1,0 +1,32 @@
+# Node.js dependencies
+node_modules/
+*.log
+logs/
+
+# Next.js build artifacts
+.next/
+out/
+build/
+
+# Coverage reports
+coverage/
+
+# OS junk
+.DS_Store
+
+# Environment variables (never commit secrets)
+.env
+.env.*
+
+# TypeScript build info
+*.tsbuildinfo
+next-env.d.ts
+
+# Vercel / Azure deployment metadata
+.vercel/
+.azure/
+PublishProfiles/
+
+# IDE/editor configs (optional, keeps repo clean)
+.vscode/
+.idea/
