@@ -37,6 +37,8 @@ jobs:
           resource-group: openclaw-rg
           settings: |
             MOLTBOOK_KEY=${{ secrets.MOLTBOOK_KEY }}
+            AZURE_OPENAI_KEY=${{ secrets.AZURE_OPENAI_KEY }}
+            AZURE_OPENAI_ENDPOINT=${{ secrets.AZURE_OPENAI_ENDPOINT }}
 
   frontend:
     runs-on: ubuntu-latest
