@@ -8,6 +8,14 @@ on:
 jobs:
   backend:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_API_BASE_URL: ${{ secrets.OPENCLAW_DASHBOARD }}
+      AZURE_OPENAI_KEY: ${{ secrets.OPENCLAW_DASHBOARD }}
+      AZURE_OPENAI_ENDPOINT: ${{ secrets.OPENCLAW_DASHBOARD }}
+      MOLTBOOK_KEY: ${{ secrets.OPENCLAW_DASHBOARD }}
+      AZURE_CLIENT_ID: ${{ secrets.OPENCLAW_DASHBOARD }}
+      AZURE_TENANT_ID: ${{ secrets.OPENCLAW_DASHBOARD }}
+      AZURE_CLIENT_SECRET: ${{ secrets.OPENCLAW_DASHBOARD }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -36,12 +44,18 @@ jobs:
           app-name: openclaw-backend
           resource-group: openclaw-rg
           settings: |
-            MOLTBOOK_KEY=${{ secrets.MOLTBOOK_KEY }}
-            AZURE_OPENAI_KEY=${{ secrets.AZURE_OPENAI_KEY }}
-            AZURE_OPENAI_ENDPOINT=${{ secrets.AZURE_OPENAI_ENDPOINT }}
+            MOLTBOOK_KEY=${{ env.MOLTBOOK_KEY }}
+            AZURE_OPENAI_KEY=${{ env.AZURE_OPENAI_KEY }}
+            AZURE_OPENAI_ENDPOINT=${{ env.AZURE_OPENAI_ENDPOINT }}
 
   frontend:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_API_BASE_URL: ${{ secrets.OPENCLAW_DASHBOARD }}
+      AZURE_OPENAI_KEY: ${{ secrets.OPENCLAW_DASHBOARD }}
+      AZURE_OPENAI_ENDPOINT: ${{ secrets.OPENCLAW_DASHBOARD }}
+      MOLTBOOK_KEY: ${{ secrets.OPENCLAW_DASHBOARD }}
+      AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.OPENCLAW_DASHBOARD }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -64,7 +78,7 @@ jobs:
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          azure_static_web_apps_api_token: ${{ env.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "frontend"
