@@ -47,7 +47,7 @@ jobs:
           app-name: openclaw-backend
           resource-group: openclaw-rg
           settings: |
-            MOLTBOOK_KEY=${{ env.MOLTBOOK_KEY }}
+            MOLTBOOK_KEY=dummy
             AZURE_OPENAI_KEY=${{ env.AZURE_OPENAI_KEY }}
             AZURE_OPENAI_ENDPOINT=${{ env.AZURE_OPENAI_ENDPOINT }}
 
