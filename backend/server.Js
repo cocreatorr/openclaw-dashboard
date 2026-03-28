@@ -1,10 +1,14 @@
 import express from "express";
 import cors from "cors";
 import fetch from "node-fetch";
+import moltbookRouter from "./routes/moltbook.js";  // NEW import
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Mount the Moltbook route
+app.use("/api", moltbookRouter);
 
 let agents = {};
 
@@ -20,7 +24,7 @@ function timestamp() {
   });
 }
 
-// Create agent with config
+// --- Agent management routes ---
 app.post("/agent", (req, res) => {
   const { name, mode, config } = req.body;
   agents[name] = {
@@ -33,12 +37,10 @@ app.post("/agent", (req, res) => {
   res.json({ status: "Agent created", agent: agents[name] });
 });
 
-// List all agents
 app.get("/agents", (req, res) => {
   res.json({ agents });
 });
 
-// Delete agent
 app.delete("/agent/:name", (req, res) => {
   const { name } = req.params;
   if (agents[name]) {
@@ -50,7 +52,6 @@ app.delete("/agent/:name", (req, res) => {
   }
 });
 
-// Get agent logs
 app.get("/agent/:name/logs", (req, res) => {
   const { name } = req.params;
   if (agents[name]) {
@@ -60,7 +61,6 @@ app.get("/agent/:name/logs", (req, res) => {
   }
 });
 
-// Update agent mode
 app.put("/agent/:name", (req, res) => {
   const { name } = req.params;
   const { mode } = req.body;
@@ -73,7 +73,6 @@ app.put("/agent/:name", (req, res) => {
   }
 });
 
-// Run agent task
 app.post("/agent/:name/run", (req, res) => {
   const { name } = req.params;
   if (!agents[name]) return res.status(404).json({ error: "Agent not found" });
@@ -85,7 +84,7 @@ app.post("/agent/:name/run", (req, res) => {
   res.json({ status: "Task executed", result: taskResult });
 });
 
-// Register agent to Moltbook
+// --- Moltbook registration (direct) ---
 app.post("/agent/:name/register", async (req, res) => {
   const { name } = req.params;
   if (!agents[name]) return res.status(404).json({ error: "Agent not found" });
@@ -108,4 +107,6 @@ app.post("/agent/:name/register", async (req, res) => {
   }
 });
 
-app.listen(3001, () => console.log("Backend running on port 3001"));
+// --- Start server ---
+const port = process.env.PORT || 3001;
+app.listen(port, () => console.log(`Backend running on port ${port}`));
