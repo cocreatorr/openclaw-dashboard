@@ -1,13 +1,13 @@
 import express from "express";
 import cors from "cors";
 import fetch from "node-fetch";
-import moltbookRouter from "./routes/moltbook.js";  // NEW import
+import moltbookRouter from "./routes/moltbook.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Mount the Moltbook route
+// Mount Moltbook route
 app.use("/api", moltbookRouter);
 
 let agents = {};
@@ -84,7 +84,7 @@ app.post("/agent/:name/run", (req, res) => {
   res.json({ status: "Task executed", result: taskResult });
 });
 
-// --- Moltbook registration (direct) ---
+// --- Moltbook registration ---
 app.post("/agent/:name/register", async (req, res) => {
   const { name } = req.params;
   if (!agents[name]) return res.status(404).json({ error: "Agent not found" });
@@ -107,6 +107,17 @@ app.post("/agent/:name/register", async (req, res) => {
   }
 });
 
+// --- Environment variable checks ---
+if (!process.env.MOLTBOOK_KEY) {
+  console.warn("⚠️ MOLTBOOK_KEY is not set. Moltbook registration will fail.");
+}
+
+// --- Error handling middleware ---
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal server error" });
+});
+
 // --- Start server ---
-const port = process.env.PORT || 3001;
-app.listen(port, () => console.log(`Backend running on port ${port}`));
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`🚀 Backend running on port ${port}`));
