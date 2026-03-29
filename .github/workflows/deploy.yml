@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          submodules: false
-          fetch-depth: 0
 
       - uses: actions/setup-node@v3
         with:
@@ -20,6 +17,10 @@ jobs:
 
       - name: Install backend dependencies
         run: npm install
+        working-directory: backend
+
+      - name: Build backend
+        run: npm run build
         working-directory: backend
 
       - name: Azure Login
@@ -50,9 +51,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          submodules: false
-          fetch-depth: 0
 
       - uses: actions/setup-node@v3
         with:
@@ -74,3 +72,4 @@ jobs:
           action: "upload"
           app_location: "frontend"
           output_location: ".next"
+          app_build_command: "npm run build --workspace frontend"
